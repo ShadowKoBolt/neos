@@ -1,0 +1,19 @@
+h1 = t("site_name")
+
+h2 = Product.model_name.human.pluralize
+- @products.each do |product|
+  div id="product-#{product.id}"
+    p = product.name
+    p = product.price_in_currency
+    = form_tag basket_items_path do
+      = hidden_field_tag "item[product_id]", product.id
+      = hidden_field_tag "item[quantity]", 1
+      = button_tag t("add_to_basket")
+
+#basket
+  h2 = Basket.model_name.human
+  - @basket.items.each do |item|
+    p #{item.quantity} x #{item.product.name}
+    = form_tag basket_item_path(item), method: :patch do
+      = hidden_field_tag "item[quantity]", item.quantity - 1
+      = button_tag t("remove_from_basket")
