@@ -1,24 +1,44 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Requirements
 
-Things you may want to cover:
+* ruby 2.4.2
+* sqlite3
 
-* Ruby version
+## Install depedencies
 
-* System dependencies
+Use `bundle` command
 
-* Configuration
+## Database creation
 
-* Database creation
+To create and seed database run `rails db:setup`
 
-* Database initialization
+## Run server
 
-* How to run the test suite
+Run `rails s` and visit [http://localhost:3000]()
 
-* Services (job queues, cache servers, search engines, etc.)
+## How to run the test suite
 
-* Deployment instructions
+Run `rspec`
 
-* ...
+## Notes
+
+* Use sqlite for portability and ease of installation and setup versus other
+  common alternatives (such as postgresql and mysql) and don't need to use more
+complex features at this time.
+* Use [reform](https://github.com/trailblazer/reform) to avoid complex
+  state-dependent business logic from creeping into models (see
+Basket::CheckoutForm).
+* Use decorators to keep view logic out of models.
+* Use service objects to keep logic out of controllers when it starts to grow
+  complex.
+* Don't make any attempt to handle or store credit card - this would be better
+  handled by another service.
+
+# TODOs
+
+* Add missing specs and increase coverage
+* Track more information on the order object (such as the total price paid on
+  checkout)
+* Add overcommit (or alternative) for precommit hooks
+* Enforce test coverage %

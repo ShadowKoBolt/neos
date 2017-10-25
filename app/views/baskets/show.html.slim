@@ -8,12 +8,71 @@ h2 = Product.model_name.human.pluralize
     = form_tag basket_items_path do
       = hidden_field_tag "item[product_id]", product.id
       = hidden_field_tag "item[quantity]", 1
-      = button_tag t("add_to_basket")
+      = submit_tag t("add_to_basket")
 
 #basket
   h2 = Basket.model_name.human
-  - @basket.items.each do |item|
-    p #{item.quantity} x #{item.product.name}
-    = form_tag basket_item_path(item), method: :patch do
-      = hidden_field_tag "item[quantity]", item.quantity - 1
-      = button_tag t("remove_from_basket")
+  table
+    thead
+      th = Item.human_attribute_name(:quantity)
+      th = Item.human_attribute_name(:name)
+      th = Item.human_attribute_name(:subtotal)
+      th
+    tbody
+      - @basket.items.each do |item|
+        tr id="basket-item-product-#{item.product.id}"
+          td = item.quantity
+          td = item.product.name
+          td = item.subtotal_in_currency
+          td
+            = form_tag basket_item_path(item), method: :patch do
+              = hidden_field_tag "item[quantity]", item.quantity - 1
+              = submit_tag t("remove_from_basket")
+
+      - @basket.basket_promotions.each do |basket_promotion|
+        tr id="basket-promotion-promotion-#{basket_promotion.promotion.id}"
+          td
+          td = basket_promotion.name
+          td = basket_promotion.subtotal_in_currency
+          td = button_to t(".remove"), basket_promotion_path(basket_promotion.promotion), method: :delete
+
+      - unless @basket.quantity_discount_subtotal.zero?
+        tr
+          td
+          td = t('.quantity_discount')
+          td = @basket.quantity_discount_subtotal_in_currency
+          td
+
+      tr
+        td
+        td = t 'subtotal'
+        td = @basket.subtotal_in_currency
+        td
+
+= form_tag basket_promotions_path, id: 'promo-form' do
+  = text_field_tag 'promotion[code]'
+  = submit_tag t('add_promotional_code')
+
+h2 = t '.checkout'
+= form_for(@checkout_form, url: checkout_path, method: :post, html: { id: 'checkout-form' }) do |f|
+  - f.object.errors.full_messages.each do |error|
+    p
+      strong = error
+
+  p
+    = f.label :email
+    br
+    = f.email_field :email, required: true
+
+  - %i{ line_1 line_2 line_3 city region postcode country }.each do |address_attribute|
+    p
+      = f.label address_attribute
+      br
+      = f.text_field address_attribute
+
+  p
+    = f.label :credit_card
+    br
+    = f.text_field :credit_card, required: true
+
+  = f.submit t('.checkout')

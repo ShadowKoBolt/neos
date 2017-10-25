@@ -2,6 +2,8 @@ require: rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.4
+  Exclude:
+    - 'db/schema.rb'
 
 Metrics/BlockLength:
   Exclude:
@@ -13,3 +15,5 @@ Metrics/LineLength:
 Style/Documentation:
   Enabled: false
 
+Style/ClassAndModuleChildren:
+  Enabled: false

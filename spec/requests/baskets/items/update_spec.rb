@@ -28,12 +28,13 @@ RSpec.describe 'Baskets / Items', type: :request do
       end
 
       let(:params) { { item: { quantity: 0 } } }
+
       it { expect { make_request }.to change { Item.count }.from(1).to(0) }
       it { is_expected.to redirect_to(root_path) }
     end
 
     context 'update another baskets item' do
-      it { expect { make_request }.to_not change { item.reload.quantity } }
+      it { expect { make_request }.not_to(change { item.reload.quantity }) }
       it { is_expected.to redirect_to(root_path) }
     end
   end

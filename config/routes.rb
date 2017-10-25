@@ -5,5 +5,8 @@ Rails.application.routes.draw do
 
   namespace :basket, module: 'baskets' do
     resources :items, only: %i[create update]
+    resources :promotions, only: %i[create destroy]
   end
+
+  post 'basket/checkout' => 'baskets#checkout', as: 'checkout'
 end

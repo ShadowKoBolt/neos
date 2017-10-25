@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,29 +10,68 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20_171_023_202_903) do
-  create_table 'baskets', force: :cascade do |t|
-    t.string 'email'
-    t.text 'address'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
+ActiveRecord::Schema.define(version: 20171025185056) do
+
+  create_table "basket_promotions", force: :cascade do |t|
+    t.integer "basket_id"
+    t.integer "promotion_id"
+    t.index ["basket_id"], name: "index_basket_promotions_on_basket_id"
+    t.index ["promotion_id"], name: "index_basket_promotions_on_promotion_id"
   end
 
-  create_table 'items', force: :cascade do |t|
-    t.integer 'product_id'
-    t.integer 'quantity'
-    t.string 'itemable_type'
-    t.integer 'itemable_id'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.index %w[itemable_type itemable_id], name: 'index_items_on_itemable_type_and_itemable_id'
-    t.index ['product_id'], name: 'index_items_on_product_id'
+  create_table "baskets", force: :cascade do |t|
+    t.string "email"
+    t.text "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
-  create_table 'products', force: :cascade do |t|
-    t.string 'name'
-    t.integer 'price'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
+  create_table "items", force: :cascade do |t|
+    t.integer "product_id"
+    t.integer "quantity"
+    t.string "itemable_type"
+    t.integer "itemable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["itemable_type", "itemable_id"], name: "index_items_on_itemable_type_and_itemable_id"
+    t.index ["product_id"], name: "index_items_on_product_id"
   end
+
+  create_table "order_items", force: :cascade do |t|
+    t.string "name"
+    t.integer "quantity"
+    t.integer "subtotal"
+    t.integer "order_id"
+    t.string "order_itemable_type"
+    t.integer "order_itemable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["order_itemable_type", "order_itemable_id"], name: "index_order_items_on_order_itemable_type_and_order_itemable_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "email"
+    t.text "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.integer "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "promotions", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.string "discount_type"
+    t.integer "discount_amount"
+    t.boolean "conjunction", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
 end

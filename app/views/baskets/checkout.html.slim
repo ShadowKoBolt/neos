@@ -1,0 +1,4 @@
+h1 = t '.checkout_complete'
+
+- @order.order_items.map { |order_item| OrderItem::HumanDecorator.new(order_item) }.each do |order_item|
+  p #{order_item.quantity} x #{order_item.name} [#{order_item.subtotal_in_currency}]

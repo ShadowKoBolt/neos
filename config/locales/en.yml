@@ -32,3 +32,22 @@
 en:
   site_name: "Neos"
   add_to_basket: "Add to basket"
+  remove_from_basket: "Remove"
+  add_promotional_code: "Add promo code"
+  baskets:
+    promotions:
+      create:
+        code_not_found: "Code not found"
+        code_added: "Code added"
+        unable_to_add_code: "Unable to add code"
+    show:
+      remove: "Remove"
+      checkout: "Checkout"
+
+  activemodel:
+    errors:
+      models:
+        basket:
+          attributes:
+            items:
+              too_short: "must be present in basket"
